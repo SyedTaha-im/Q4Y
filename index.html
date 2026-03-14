@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qurbani4You | Professional Animal Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --primary: #064e3b; --secondary: #d97706; --light: #f9fafb; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light); scroll-behavior: smooth; }
+        
+        .hero-gradient { 
+            background: linear-gradient(rgba(6, 78, 59, 0.9), rgba(6, 78, 59, 0.8)), url('https://images.unsplash.com/photo-1511117833452-482a72929e49?auto=format&fit=crop&q=80'); 
+            background-size: cover; 
+            background-position: center; 
+        }
+        
+        .sticky-nav { position: sticky; top: 0; z-index: 50; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal.active { display: flex; }
+
+        /* --- FIXED ANIMAL CARDS --- */
+        .animal-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .image-frame {
+            position: relative;
+            width: 100%;
+            height: 250px; 
+            background-color: #f0f0f0; /* Grey background for gaps */
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            /* CHANGED: 'contain' stops the zooming/cropping */
+            object-fit: contain; 
+            object-position: center;
+            transition: transform 0.3s ease;
+            padding: 5px; /* Adds a small margin around the photo */
+        }
+
+        .image-frame:hover img { transform: scale(1.05); }
+
+        /* --- GALLERY GRID --- */
+        .gallery-item {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky-nav px-6 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-emerald-900">Qurbani<span class="text-amber-600">4You</span></h1>
+        <div class="hidden md:flex gap-6 font-medium text-gray-700">
+            <a href="#home" class="hover:text-emerald-700">Home</a>
+            <a href="#animals" class="hover:text-emerald-700">Animals</a>
+            <a href="#gallery" class="hover:text-emerald-700">Gallery</a>
+        </div>
+        <a href="https://wa.me/923212368867" class="bg-emerald-600 text-white px-4 py-2 rounded-full flex items-center gap-2">
+            <i class="fab fa-whatsapp"></i> <span class="hidden sm:inline">WhatsApp</span>
+        </a>
+    </nav>
+
+    <section id="home" class="hero-gradient h-[50vh] flex flex-col items-center justify-center text-center text-white px-4">
+        <h2 class="text-4xl font-bold mb-4">Book Your Qurbani Animal</h2>
+        <p class="text-lg max-w-xl mb-6">Healthy, Sunnah-compliant animals (2/4 teeth) delivered to your location.</p>
+        <a href="#animals" class="bg-amber-600 hover:bg-amber-700 px-8 py-3 rounded-lg font-bold transition shadow-lg">View All Animals</a>
+    </section>
+
+    <main class="max-w-6xl mx-auto py-12 px-6">
+        
+        <h3 id="animals" class="text-3xl font-bold text-emerald-900 mb-8 border-l-4 border-amber-500 pl-4">Goat / Bakra</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            
+            <div class="animal-card">
+                <div class="image-frame" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="/b1.jpeg" alt="Bakra 10-15kg">
+                    <div class="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full text-xs"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow text-center">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded self-center">2-4 TEETH</span>
+                    <h4 class="text-xl font-bold mt-2 text-gray-800">10 – 15 kg</h4>
+                    <p class="text-gray-500 text-sm mt-1 flex-grow">Healthy grass-fed animal.</p>
+                    <button onclick="openBooking('Goat', '10-15 kg')" class="w-full mt-4 bg-emerald-700 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition active:scale-95">Book Now</button>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <div class="image-frame" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="/b2.jpeg" alt="Bakra 15-20kg">
+                    <div class="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full text-xs"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow text-center">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded self-center">2-4 TEETH</span>
+                    <h4 class="text-xl font-bold mt-2 text-gray-800">15 – 20 kg</h4>
+                    <p class="text-gray-500 text-sm mt-1 flex-grow">Quality grass-fed animal.</p>
+                    <button onclick="openBooking('Goat', '15-20 kg')" class="w-full mt-4 bg-emerald-700 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition active:scale-95">Book Now</button>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <div class="image-frame" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="/b3.jpeg" alt="Bakra 20-25kg">
+                    <div class="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full text-xs"><i class="fas fa-search-plus"></i></div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow text-center">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded self-center">2-4 TEETH</span>
+                    <h4 class="text-xl font-bold mt-2 text-gray-800">20 – 25 kg</h4>
+                    <p class="text-gray-500 text-sm mt-1 flex-grow">Premium heavy weight Bakra.</p>
+                    <button onclick="openBooking('Goat', '20-25 kg')" class="w-full mt-4 bg-emerald-700 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition active:scale-95">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-3xl font-bold text-emerald-900 mb-8 border-l-4 border-amber-500 pl-4">Cow / Bachra</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            
+            <div class="animal-card">
+                <div class="image-frame" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="/c1.jpeg" alt="Cow 2-2.5 Mun">
+                </div>
+                <div class="p-5 flex flex-col flex-grow text-center">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded self-center">2 TEETH</span>
+                    <h4 class="text-xl font-bold mt-2">2 – 2.5 Mun</h4>
+                    <button onclick="openBooking('Cow', '2-2.5 Mun')" class="w-full mt-4 bg-emerald-700 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition">Book Now</button>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <div class="image-frame" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="/c2.jpeg" alt="Cow 3-3.5 Mun">
+                </div>
+                <div class="p-5 flex flex-col flex-grow text-center">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded self-center">2 TEETH</span>
+                    <h4 class="text-xl font-bold mt-2">3 – 3.5 Mun</h4>
+                    <button onclick="openBooking('Cow', '3-3.5 Mun')" class="w-full mt-4 bg-emerald-700 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition">Book Now</button>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <div class="image-frame" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="/c3.jpeg" alt="Cow 4-4.5 Mun">
+                </div>
+                <div class="p-5 flex flex-col flex-grow text-center">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded self-center">2 TEETH</span>
+                    <h4 class="text-xl font-bold mt-2">4 – 4.5 Mun</h4>
+                    <button onclick="openBooking('Cow', '4-4.5 Mun')" class="w-full mt-4 bg-emerald-700 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition">Book Now</button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <h3 id="gallery" class="text-3xl font-bold text-emerald-900 mb-8 border-l-4 border-amber-500 pl-4">Livestock Gallery</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <img src="/b1.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b2.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b3.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c1.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c2.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c3.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b4.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b5.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b6.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c4.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c5.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c6.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/c7.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b8.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b9.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b10.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b11.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b12.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b13.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+            <img src="/b14.jpeg" class="gallery-item shadow-md" onclick="openLightbox(this.src)">
+        </div>
+
+    </main>
+
+    <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-95 z-[200] flex items-center justify-center p-4" onclick="closeLightbox()">
+        <span class="absolute top-10 right-10 text-white text-4xl cursor-pointer">&times;</span>
+        <img id="lightboxImg" src="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl">
+    </div>
+
+    <div id="bookingModal" class="modal">
+        <div class="bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl relative">
+            <button onclick="closeBooking()" class="absolute top-4 right-4 text-gray-400 text-2xl hover:text-gray-600 transition">&times;</button>
+            <h3 class="text-2xl font-bold text-emerald-900 mb-6">Complete Booking</h3>
+            <form id="bookingForm" class="space-y-4">
+                <input type="hidden" name="category" id="formCat">
+                <input type="hidden" name="weight" id="formWeight">
+                <input type="text" name="name" placeholder="Full Name" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                <input type="tel" name="phone" placeholder="Phone Number" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                <input type="text" name="city" placeholder="City" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                <textarea name="address" placeholder="Address" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" rows="2"></textarea>
+                <textarea name="notes" placeholder="Special Requirements (Optional)" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" rows="2"></textarea>
+                <button type="submit" id="submitBtn" class="w-full bg-amber-600 text-white py-4 rounded-xl font-bold hover:bg-amber-700 transition shadow-lg">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-emerald-900 text-white py-12 px-6 mt-12 text-center">
+        <p>© 2026 Qurbani4You. Serving with Quality and Trust.</p>
+    </footer>
+
+    <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const modal = document.getElementById('bookingModal');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyd_W2Pz0HHdbXz9xx1NsxCTdd9k9nStqcVp8RhUaj6lHqbi2ozd63LCrMxMPXTfp7I/exec'; 
+
+    function openLightbox(src) {
+        if (!src) return;
+        lightboxImg.src = src;
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.add('hidden');
+        lightboxImg.src = '';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openBooking(cat, weight) {
+        document.getElementById('formCat').value = cat;
+        document.getElementById('formWeight').value = weight;
+        modal.classList.add('active');
+    }
+
+    function closeBooking() {
+        modal.classList.remove('active');
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const originalBtnText = btn.innerHTML;
+        const formData = new FormData(this);
+        
+        const myPhoneNumber = "923212368867"; 
+        const customerName = formData.get('name');
+        const animalType = formData.get('category');
+        const animalWeight = formData.get('weight');
+
+        btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Processing...";
+        btn.disabled = true;
+
+        fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' })
+        .then(() => {
+            alert("Success! Your booking has been recorded.");
+            const message = `Assalam-o-Alaikum, I am ${customerName}. I want to book a ${animalType} (${animalWeight}).`;
+            const waLink = `https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+            this.reset();
+            closeBooking();
+            window.open(waLink, '_blank');
+        })
+        .catch(err => {
+            alert("Error saving booking. Please contact us on WhatsApp.");
+            btn.disabled = false;
+            btn.innerHTML = originalBtnText;
+        });
+    });
+    </script>
+</body>
+</html>
